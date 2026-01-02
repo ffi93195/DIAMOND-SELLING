@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>INDRAJIT 1M | Diamond Top-Up</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+ --blue:#2f80ff;
+ --card:#0b1f44;
+ --light:#00eaff;
+}
+
+body{
+ margin:0;
+ font-family:Poppins,Arial;
+ background:linear-gradient(135deg,#020b2d,#000);
+ color:#fff;
+}
+
+.container{
+ max-width:420px;
+ margin:auto;
+ padding:20px;
+}
+
+.logo{text-align:center;}
+.logo img{width:140px;margin-bottom:10px;}
+
+.card{
+ background:var(--card);
+ padding:20px;
+ border-radius:14px;
+ margin-top:15px;
+ box-shadow:0 0 18px rgba(0,140,255,.35);
+}
+
+h2{text-align:center;margin-top:0;}
+
+button,input{
+ width:100%;
+ padding:12px;
+ margin-top:10px;
+ border:none;
+ border-radius:10px;
+ font-size:15px;
+}
+
+button{
+ background:var(--blue);
+ color:#fff;
+ cursor:pointer;
+ transition:.3s;
+}
+button:hover{background:#1d5fd1;}
+
+.package{
+ background:#112a5c;
+ padding:14px;
+ border-radius:10px;
+ margin-top:8px;
+ cursor:pointer;
+ border:2px solid transparent;
+}
+.package.active{border-color:var(--light);}
+
+.hidden{display:none;}
+
+.qr{text-align:center;margin-top:15px;}
+.qr img{width:220px;}
+
+.message{
+ margin-top:15px;
+ padding:12px;
+ background:#1a2f66;
+ border-radius:8px;
+ color:#ffcc00;
+ text-align:center;
+}
+
+/* FUNNY TOAST */
+.toast{
+ position:fixed;
+ bottom:20px;
+ left:50%;
+ transform:translateX(-50%);
+ background:#000;
+ padding:10px 18px;
+ border-radius:20px;
+ display:none;
+ font-size:14px;
+}
+
+/* HELP */
+.help-grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:10px;
+ margin-top:15px;
+}
+.help-btn{
+ background:#0f2b5f;
+ padding:12px;
+ border-radius:10px;
+ text-align:center;
+ cursor:pointer;
+ transition:.3s;
+}
+.help-btn:hover{background:#1f4fb0;}
+
+.footer{
+ text-align:center;
+ margin-top:25px;
+ font-size:14px;
+}
+.footer a{color:var(--light);text-decoration:none;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+ <img src="logo.png">
+</div>
+
+<!-- STEP 1 -->
+<div class="card" id="step1">
+ <h2>Select Diamonds 💎</h2>
+
+ <div class="package" onclick="selectPkg(this)">💎 100 Diamonds – ₹40</div>
+ <div class="package" onclick="selectPkg(this)">💎 300 Diamonds – ₹110</div>
+ <div class="package" onclick="selectPkg(this)">💎 520 Diamonds – ₹180</div>
+ <div class="package" onclick="selectPkg(this)">💎 1060 Diamonds – ₹360</div>
+
+ <button onclick="goUID()">Continue</button>
+</div>
+
+<!-- STEP 2 -->
+<div class="card hidden" id="step2">
+ <h2>Player Details 🎮</h2>
+ <input placeholder="Free Fire UID">
+ <small>⚠️ UID galat hua to diamonds padosi ko chale jayenge 😂</small>
+ <input placeholder="In-Game Name">
+ <input type="email" placeholder="Email (order update)">
+ <input placeholder="WhatsApp / Mobile (optional)">
+ <button onclick="goPay()">Confirm Details</button>
+</div>
+
+<!-- STEP 3 -->
+<div class="card hidden" id="step3">
+ <h2>Scan & Pay 💳</h2>
+ <div class="qr">
+  <img src="qr.png">
+  <p>QR scan karo & payment complete karo</p>
+ </div>
+
+ <input type="file" accept="image/*">
+ <button onclick="submitPay()">Submit Payment</button>
+
+ <div class="message hidden" id="payMsg">
+  ❌ Payment abhi receive nahi hua.<br>
+  ⏳ Verify ho raha hai… chai peeke aao ☕😄
+ </div>
+</div>
+
+<!-- HELP -->
+<div class="card">
+ <h2>Help & Support 🤝</h2>
+ <div class="help-grid">
+  <div class="help-btn">❓ How to Buy</div>
+  <div class="help-btn">💳 Payment Issue</div>
+  <div class="help-btn">🧾 Order Status</div>
+  <div class="help-btn" onclick="funnyHelp()">🤖 AI Help</div>
+ </div>
+</div>
+
+<div class="footer">
+ TELEGRAM HELPLINE<br>
+ <a href="https://t.me/INDRAJIT_1M" target="_blank">@INDRAJIT_1M</a>
+</div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let selected=false;
+
+function showToast(msg){
+ let t=document.getElementById("toast");
+ t.innerHTML=msg;
+ t.style.display="block";
+ setTimeout(()=>t.style.display="none",2500);
+}
+
+function selectPkg(el){
+ document.querySelectorAll('.package').forEach(p=>p.classList.remove('active'));
+ el.classList.add('active');
+ selected=true;
+ showToast("💎 Diamonds aa rahe hain… patience rakho 😜");
+}
+
+function goUID(){
+ if(!selected){alert("Pehle diamonds select karo 😅");return;}
+ step1.classList.add("hidden");
+ step2.classList.remove("hidden");
+}
+
+function goPay(){
+ step2.classList.add("hidden");
+ step3.classList.remove("hidden");
+ showToast("Almost done! Last step baki hai 🚀");
+}
+
+function submitPay(){
+ document.getElementById("payMsg").classList.remove("hidden");
+ showToast("Payment submit ho gaya 👍");
+}
+
+function funnyHelp(){
+ alert("🤖 AI: Main help ke liye hoon 😄\nAgar serious issue hai to Telegram helpline use karo!");
+}
+</script>
+
+</body>
+</html>
